@@ -30,7 +30,6 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 function! s:after(str, cnt, vis, bw)
-  let pos = getpos('.')
   let col = a:vis ? col("'<") : col('.')
   let line = getline('.')
   let parts = split(line, '\V'.a:str.'\zs', 1)
@@ -65,7 +64,6 @@ function! s:after(str, cnt, vis, bw)
       execute 'normal! '.(col + idx + 1).'|v$h'
     endif
   catch 'exit'
-    call setpos('.', pos)
     if a:vis
       normal! gv
     endif
