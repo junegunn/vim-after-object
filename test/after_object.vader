@@ -106,3 +106,22 @@ Do (With count (3)):
 Expect:
   apple = apple = apple = 
 
+------------------------
+~ Repeatability        ~
+------------------------
+
+Given:
+  apple = red
+  banana = yellow
+  right.
+
+Do (Repeat ca=):
+  ca=blue\<esc>
+  j.
+  j.
+
+Expect:
+  apple = blue
+  banana = blue
+  right.
+
