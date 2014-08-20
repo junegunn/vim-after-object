@@ -1,0 +1,108 @@
+Execute (Setup):
+  call after_object#enable('=', ':')
+
+Given (=):
+  apple=apple
+  apple= apple
+  apple=  apple
+  apple =apple
+  apple = apple
+  apple =  apple
+
+Before:
+  let @q = 'da=j'
+Do (da=):
+  100@q
+
+Expect (Deleted after =):
+  apple=
+  apple= 
+  apple=  
+  apple =
+  apple = 
+  apple =  
+
+Before:
+  let @q = "va=cx\<esc>j"
+Do (va=cx):
+  100@q
+
+Expect (x after =):
+  apple=x
+  apple= x
+  apple=  x
+  apple =x
+  apple = x
+  apple =  x
+
+Given (:):
+  apple:apple
+  apple: apple
+  apple:  apple
+  apple :apple
+  apple : apple
+  apple :  apple
+
+Before:
+  let @q = 'da:j'
+Do (da:):
+  100@q
+
+Expect (Deleted after :):
+  apple:
+  apple: 
+  apple:  
+  apple :
+  apple : 
+  apple :  
+
+Before:
+  let @q = 'dA:j'
+Do (dA:):
+  100@q
+
+Expect (Deleted after :):
+  apple:
+  apple: 
+  apple:  
+  apple :
+  apple : 
+  apple :  
+
+------------------------
+~ Multiple occurrences ~
+------------------------
+
+Given (=s):
+  apple = apple = apple = apple
+
+Before:
+Do (a=a=):
+  gUa=
+  gua=
+  gUa=
+
+Expect:
+  apple = APPLE = apple = APPLE
+
+Do (A=A=A=):
+  $v
+  A=
+  A=
+  d
+
+Expect:
+  apple = 
+
+Do (With count (2)):
+  2da=
+
+Expect:
+  apple = apple = 
+
+Do (With count (3)):
+  3da=
+
+Expect:
+  apple = apple = apple = 
+
