@@ -57,8 +57,8 @@ Expect (Deleted after :):
   apple :  
 
 Before:
-  let @q = 'dA:j'
-Do (dA:):
+  let @q = 'daa:j'
+Do (daa:):
   100@q
 
 Expect (Deleted after :):
@@ -85,10 +85,10 @@ Do (a=a=):
 Expect:
   apple = APPLE = apple = APPLE
 
-Do (A=A=A=):
+Do (aa=aa=aa=):
   $v
-  A=
-  A=
+  aa=
+  aa=
   d
 
 Expect:

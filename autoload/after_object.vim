@@ -79,7 +79,7 @@ endfunction
 
 function! after_object#enable(...)
   for c in a:000
-    for [p, b] in items({ 'a': 0, 'A': 1 })
+    for [p, b] in items({ 'a': 0, 'aa': 1 })
       for [m, v] in items({ 'x': 1, 'o': 0 })
         execute printf(
         \ '%snoremap <silent> %s%s :<c-u>call <sid>after(%s, v:count1, %d, %d)<cr>',
@@ -91,7 +91,7 @@ endfunction
 
 function! after_object#disable(...)
   for c in a:000
-    for p in ['a', 'A']
+    for p in ['a', 'aa']
       for m in ['x', 'o']
         execute printf('%sunmap <silent> %s%s', m, p, s:esc(c))
       endfor

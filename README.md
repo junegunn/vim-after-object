@@ -35,6 +35,6 @@ apple = 'juice'
 ```
 
 When the line contains multiple occurrences of the characters, you can forward
-the visual selection by repeating `a=`, or move backward with `A=`. Both
+the visual selection by repeating `a=`, or move backward with `aa=`. Both
 mappings can be preceded by a count. Refer to the test cases for the details.
 
