@@ -75,9 +75,17 @@ function! s:esc(c)
   return substitute(substitute(a:c, ' ', '<space>', 'g'), '|', '<bar>', 'g')
 endfunction
 
+function! s:parse_args(args)
+  let lists = filter(copy(a:args), 'type(v:val) == type([])')
+  let chars = filter(copy(a:args), 'type(v:val) == type("")')
+  return [get(lists, '-1', ['a', 'aa']), chars]
+endfunction
+
 function! after_object#enable(...)
-  for c in a:000
-    for [p, b] in items({ 'a': 0, 'aa': 1 })
+  let [prefixes, chars] = s:parse_args(a:000)
+  let prefixes = map(prefixes[0 : 1], '[v:val, v:key]')
+  for c in chars
+    for [p, b] in prefixes
       for [m, v] in items({ 'x': 1, 'o': 0 })
         execute printf(
         \ '%snoremap <silent> %s%s :<c-u>call <sid>after(%s, v:count1, %d, %d)<cr>',
@@ -88,8 +96,9 @@ function! after_object#enable(...)
 endfunction
 
 function! after_object#disable(...)
-  for c in a:000
-    for p in ['a', 'aa']
+  let [prefixes, chars] = s:parse_args(a:000)
+  for c in chars
+    for p in prefixes[0 : 1]
       for m in ['x', 'o']
         execute printf('%sunmap <silent> %s%s', m, p, s:esc(c))
       endfor

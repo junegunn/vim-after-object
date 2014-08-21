@@ -125,3 +125,42 @@ Expect:
   banana = blue
   right.
 
+------------------------
+~ Custom prefix        ~
+------------------------
+
+Given (=s):
+  apple = apple = apple = apple
+
+Before (Define after-objects with custom prefixes):
+  call after_object#enable([']', '['], '=', ':')
+Do (Using custom prefix):
+  v]=]=]=[=U
+
+Expect:
+  apple = apple = APPLE = APPLE
+
+Before (You can put prefix list anywhere in the argument list):
+  call after_object#enable('=', ':', ['<c-a>', '-'])
+Do (Using custom prefix):
+  v\<c-a>=\<c-a>=\<c-a>=-=U
+
+Expect:
+  apple = apple = APPLE = APPLE
+
+Before (Remove mappings with after_object#disable call):
+  call after_object#disable('=', ':', ['<c-a>', '-'])
+Do (Mappings with custom prefixes are gone):
+  v\<c-a>=\<c-a>=\<c-a>=-=U
+
+Expect:
+  apple = apple = apple = apple
+
+Before (Remove mappings with after_object#disable call w/o list argument):
+  call after_object#disable('=', ':')
+Do (Mappings are gone):
+  va=a=a=aa=U
+
+Expect:
+  apple = apple = apple = apple
+

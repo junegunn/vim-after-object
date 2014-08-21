@@ -38,3 +38,11 @@ When the line contains multiple occurrences of the characters, you can forward
 the visual selection by repeating `a=`, or move backward with `aa=`. Both
 mappings can be preceded by a count. Refer to the test cases for the details.
 
+To define mappings with different prefixes other than `a` and `aa`, you can
+pass an optional list containing forward prefix and backward prefix to
+`after_object#enable` call as follows:
+
+```vim
+autocmd VimEnter * call after_object#enable([']', '['], '=', ':')
+```
+
