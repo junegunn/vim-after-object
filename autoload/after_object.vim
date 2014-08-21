@@ -70,7 +70,7 @@ function! s:after(str, cnt, vis, bw)
       normal! gv
     endif
     let s:ok = 0
-    if v:operator =~ '^c$'
+    if v:operator == 'c'
       let &l:undolevels = &l:undolevels
       augroup after_object_hook
         autocmd InsertLeave <buffer> execute 'normal! u' | autocmd! after_object_hook
@@ -93,7 +93,7 @@ function! s:after_after()
   endif
 endfunction
 
-noremap  <expr> <Plug>(AfterAfterObject) ''
+noremap         <Plug>(AfterAfterObject) <c-l>
 inoremap <expr> <Plug>(AfterAfterObject) <sid>after_after()
 
 function! s:esc(c)
