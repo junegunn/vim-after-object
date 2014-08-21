@@ -77,6 +77,9 @@ function! s:after(str, cnt, vis, bw)
       augroup END
     endif
   finally
+    if histget(':', -1) =~ '<SNR>[0-9_]*after('
+      call histdel(':', -1)
+    endif
     echo
   endtry
 endfunction
