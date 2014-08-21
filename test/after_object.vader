@@ -69,6 +69,8 @@ Expect (Deleted after :):
   apple : 
   apple :  
 
+Before:
+
 ------------------------
 ~ Multiple occurrences ~
 ------------------------
@@ -76,7 +78,6 @@ Expect (Deleted after :):
 Given (=s):
   apple = apple = apple = apple
 
-Before:
 Do (a=a=):
   gUa=
   gua=
@@ -163,4 +164,27 @@ Do (Mappings are gone):
 
 Expect:
   apple = apple = apple = apple
+
+Before:
+Execute (Re-enable mappings):
+  call after_object#enable('=', ':')
+
+------------------------
+~ Abort on no match    ~
+------------------------
+
+Given:
+  apple = red
+  banana = yellow
+  right.
+
+Do (ca= on no match should leave insert mode):
+  ca=bad\<esc>
+  jj
+  ca=ft
+
+Expect:
+  apple = bad
+  banana = yellow
+  right.
 

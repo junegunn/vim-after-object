@@ -30,6 +30,8 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 function! s:after(str, cnt, vis, bw)
+  let s:ok = 1
+
   let col = a:vis ? col("'<") : col('.')
   let line = getline('.')
   let parts = split(line, '\V'.a:str.'\zs', 1)
@@ -67,8 +69,27 @@ function! s:after(str, cnt, vis, bw)
     if a:vis
       normal! gv
     endif
+    let s:ok = 0
+    if v:operator =~ '^c$'
+      let &l:undolevels = &l:undolevels
+      augroup after_object_hook
+        autocmd InsertLeave <buffer> execute 'normal! u' | autocmd! after_object_hook
+      augroup END
+    endif
   endtry
 endfunction
+
+function! s:after_after()
+  if s:ok
+    return ''
+  else
+    autocmd! after_object_hook
+    return "\<esc>" . (col('.') > 1 ? 'l' : '')
+  endif
+endfunction
+
+noremap  <expr> <Plug>(AfterAfterObject) ''
+inoremap <expr> <Plug>(AfterAfterObject) <sid>after_after()
 
 function! s:esc(c)
   " TODO: anything else?
@@ -88,7 +109,7 @@ function! after_object#enable(...)
     for [p, b] in prefixes
       for [m, v] in items({ 'x': 1, 'o': 0 })
         execute printf(
-        \ '%snoremap <silent> %s%s :<c-u>call <sid>after(%s, v:count1, %d, %d)<cr>',
+        \ '%smap <silent> %s%s :<c-u>call <sid>after(%s, v:count1, %d, %d)<cr><Plug>(AfterAfterObject)',
         \  m, p, s:esc(c), string(s:esc(c)), v, b)
       endfor
     endfor
