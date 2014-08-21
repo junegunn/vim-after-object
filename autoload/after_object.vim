@@ -76,6 +76,8 @@ function! s:after(str, cnt, vis, bw)
         autocmd InsertLeave <buffer> execute 'normal! u' | autocmd! after_object_hook
       augroup END
     endif
+  finally
+    echo
   endtry
 endfunction
 
