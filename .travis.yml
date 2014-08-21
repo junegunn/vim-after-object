@@ -2,6 +2,12 @@ language: vim
 
 before_script: |
   git clone https://github.com/junegunn/vader.vim.git
+  hg clone https://code.google.com/p/vim/
+  cd vim
+  ./configure --with-features=huge
+  make
+  sudo make install
+  cd -
 
 script: |
   vim -Nu <(cat << VIMRC
