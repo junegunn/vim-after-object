@@ -15,22 +15,22 @@ Plug 'junegunn/vim-after-object'
 Setting up
 ----------
 
-vim-after-object does not define any mappings by default.
-You have to enable mappings that you want.
+vim-after-object does not define any mappings by default. You have to enable
+mappings you want.
 
 ```vim
-" Define 'after text objects' on VimEnter
 autocmd VimEnter * call after_object#enable('=', ':', '-', '#', ' ')
 ```
 
-The above example will define mappings for `a=`, `aa=`, `a:`, `aa:`, 
-and so forth. (`a` prefix is for forward motion and `aa` is for backward)
+For each character, a pair of mappings are defined; the default mapping with
+`a`-prefix (mnemonic for *after*) and the one with `aa`-prefix for backward
+search. The latter is only used when the character appears more than once in
+the line.
 
-To define mappings with different prefixes other than `a` and `aa`, you can
-pass an optional list containing forward and backward prefix to
-`after_object#enable` call as follows:
+To use different prefixes, pass an optional list to `after_object#enable`:
 
 ```vim
+" ]= and [= instead of a= and aa=
 autocmd VimEnter * call after_object#enable([']', '['], '=', ':')
 ```
 
@@ -45,6 +45,7 @@ Usage
 apple = 'juice'
 ```
 
-When the line contains multiple occurrences of the characters, you can forward
-the visual selection by repeating `a=`, or move backward with `aa=`. Both
+When the line contains multiple occurrences of the character, you can move the
+visual selection forward by repeating `a=`, or backward with `aa=`. Both
 mappings can be preceded by a count. Refer to the test cases for the details.
+
