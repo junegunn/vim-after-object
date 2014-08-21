@@ -20,7 +20,18 @@ You have to enable mappings that you want.
 
 ```vim
 " Define 'after text objects' on VimEnter
-autocmd VimEnter * call after_object#enable('=', '-', ':', '#', ' ')
+autocmd VimEnter * call after_object#enable('=', ':', '-', '#', ' ')
+```
+
+The above example will define mappings for `a=`, `aa=`, `a:`, `aa:`, 
+and so forth. (`a` prefix is for forward motion and `aa` is for backward)
+
+To define mappings with different prefixes other than `a` and `aa`, you can
+pass an optional list containing forward and backward prefix to
+`after_object#enable` call as follows:
+
+```vim
+autocmd VimEnter * call after_object#enable([']', '['], '=', ':')
 ```
 
 Usage
@@ -37,12 +48,3 @@ apple = 'juice'
 When the line contains multiple occurrences of the characters, you can forward
 the visual selection by repeating `a=`, or move backward with `aa=`. Both
 mappings can be preceded by a count. Refer to the test cases for the details.
-
-To define mappings with different prefixes other than `a` and `aa`, you can
-pass an optional list containing forward prefix and backward prefix to
-`after_object#enable` call as follows:
-
-```vim
-autocmd VimEnter * call after_object#enable([']', '['], '=', ':')
-```
-
