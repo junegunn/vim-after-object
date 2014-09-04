@@ -63,7 +63,7 @@ function! s:after(str, cnt, vis, bw)
       throw 'exit'
     else
       let idx = max([match(rest, '\S'), 0])
-      execute 'normal! '.(col + idx + 1).'|v$h'
+      execute 'normal! 0'.(col + idx + 1).'lhv$h'
     endif
   catch 'exit'
     if a:vis

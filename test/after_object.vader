@@ -188,3 +188,15 @@ Expect:
   banana = yellow
   right.
 
+------------------------
+~ Tabs                 ~
+------------------------
+
+Given (Tab indentation):
+  			apple = red
+
+Do:
+  da=
+
+Expect:
+  			apple = 
