@@ -93,7 +93,7 @@ function! s:after_after()
   endif
 endfunction
 
-noremap         <Plug>(AfterAfterObject) <c-l>
+noremap         <Plug>(AfterAfterObject) <nop>
 inoremap <expr> <Plug>(AfterAfterObject) <sid>after_after()
 
 function! s:esc(c)
