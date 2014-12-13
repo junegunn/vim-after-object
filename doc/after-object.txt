@@ -1,0 +1,65 @@
+after-object.txt	after-object	Last change: December 14 2014
+AFTER-OBJECT - TABLE OF CONTENTS     *afterobject* *after-object* *after-object-toc*
+==============================================================================
+
+  vim-after-object
+    Installation                                              |after-object-1|
+    Setting up                                                |after-object-2|
+    Usage                                                     |after-object-3|
+
+
+VIM-AFTER-OBJECT                                              *vim-after-object*
+==============================================================================
+
+Defines text objects to target text after the designated characters.
+
+
+                                                                *after-object-1*
+INSTALLATION                                         *after-object-installation*
+==============================================================================
+
+Using {vim-plug}{1}:
+>
+    Plug 'junegunn/vim-after-object'
+<
+                                      {1} https://github.com/junegunn/vim-plug
+
+
+                                                                *after-object-2*
+SETTING UP                                             *after-object-setting-up*
+==============================================================================
+
+vim-after-object does not define any mappings by default. You have to enable
+mappings you want.
+
+                                                           *after_object#enable*
+>
+    autocmd VimEnter * call after_object#enable('=', ':', '-', '#', ' ')
+<
+For each character, a pair of mappings are defined; the default mapping with
+`a`-prefix (mnemonic for after) and the one with `aa`-prefix for backward
+search. The latter is only used when the character appears more than once in
+the line.
+
+To use different prefixes, pass an optional list to `after_object#enable`:
+>
+    " ]= and [= instead of a= and aa=
+    autocmd VimEnter * call after_object#enable([']', '['], '=', ':')
+<
+
+                                                                *after-object-3*
+USAGE                                                       *after-object-usage*
+==============================================================================
+>
+    # va=  visual after =
+    # ca=  change after =
+    # da=  delete after =
+    # ya=  yank after =
+    apple = 'juice'
+<
+When the line contains multiple occurrences of the character, you can move the
+visual selection forward by repeating `a=`, or backward with `aa=`. Both
+mappings can be preceded by a count. Refer to the test cases for the details.
+
+==============================================================================
+vim:tw=78:sw=2:ts=2:ft=help:norl:nowrap:
