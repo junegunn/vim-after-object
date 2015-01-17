@@ -63,18 +63,16 @@ function! s:after(str, cnt, vis, bw)
       throw 'exit'
     else
       let idx = max([match(rest, '\S'), 0])
-      execute 'normal! 0'.(col + idx + 1).'lhv$h'
+      echom 'normal! 0'.(col + idx).'lv$h'
+      execute 'normal! 0'.(col + idx).'lv$h'
     endif
   catch 'exit'
     if a:vis
       normal! gv
     endif
     let s:ok = 0
-    if v:operator == 'c'
-      let &l:undolevels = &l:undolevels
-      augroup after_object_hook
-        autocmd InsertLeave <buffer> execute 'normal! u' | autocmd! after_object_hook
-      augroup END
+    if v:operator =~ '[cd]'
+      call feedkeys("\<Plug>(AfterAfterObject)")
     endif
   finally
     if histget(':', -1) =~ '<SNR>[0-9_]*after('
@@ -84,17 +82,12 @@ function! s:after(str, cnt, vis, bw)
   endtry
 endfunction
 
-function! s:after_after()
-  if s:ok
-    return ''
-  else
-    autocmd! after_object_hook
-    return "\<esc>" . (col('.') > 1 ? 'l' : '')
-  endif
+function! s:after_after(ins)
+  return "\<esc>"  . 'u'
 endfunction
 
-noremap         <Plug>(AfterAfterObject) <nop>
-inoremap <expr> <Plug>(AfterAfterObject) <sid>after_after()
+nnoremap <Plug>(AfterAfterObject) <esc>u
+inoremap <Plug>(AfterAfterObject) <nop>
 
 function! s:esc(c)
   " TODO: anything else?
@@ -114,7 +107,7 @@ function! after_object#enable(...)
     for [p, b] in prefixes
       for [m, v] in items({ 'x': 1, 'o': 0 })
         execute printf(
-        \ '%smap <silent> %s%s :<c-u>call <sid>after(%s, v:count1, %d, %d)<cr><Plug>(AfterAfterObject)',
+        \ '%smap <silent> %s%s :<c-u>call <sid>after(%s, v:count1, %d, %d)<cr>',
         \  m, p, s:esc(c), string(s:esc(c)), v, b)
       endfor
     endfor

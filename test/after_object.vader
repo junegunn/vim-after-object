@@ -116,7 +116,7 @@ Given:
   banana = yellow
   right.
 
-Do (Repeat ca=):
+Do (FIXME: Repeat ca=):
   ca=blue\<esc>
   j.
   j.
@@ -178,7 +178,7 @@ Given:
   banana = yellow
   right.
 
-Do (ca= on no match should leave insert mode):
+Do (FIXME: ca= on no match should leave insert mode):
   ca=bad\<esc>
   jj
   ca=ft
@@ -200,3 +200,24 @@ Do:
 
 Expect:
   			apple = 
+
+------------------------
+~ Regressions          ~
+------------------------
+Given:
+  abc = 1
+
+Do:
+  ca=2\<esc>
+
+Expect:
+  abc = 2
+
+Given:
+  abc = 
+
+Do:
+  da=
+
+Expect:
+  abc =
