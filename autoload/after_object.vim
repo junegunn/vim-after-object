@@ -1,4 +1,4 @@
-" Copyright (c) 2014 Junegunn Choi
+" Copyright (c) 2015 Junegunn Choi
 "
 " MIT License
 "
@@ -30,8 +30,6 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 function! s:after(str, cnt, vis, bw)
-  let s:ok = 1
-
   let col = a:vis ? col("'<") : col('.')
   let line = getline('.')
   let parts = split(line, '\V'.a:str.'\zs', 1)
@@ -63,17 +61,14 @@ function! s:after(str, cnt, vis, bw)
       throw 'exit'
     else
       let idx = max([match(rest, '\S'), 0])
-      echom 'normal! 0'.(col + idx).'lv$h'
       execute 'normal! 0'.(col + idx).'lv$h'
     endif
   catch 'exit'
+    call s:textobj_cancel()
     if a:vis
       normal! gv
     endif
-    let s:ok = 0
-    if v:operator =~ '[cd]'
-      call feedkeys("\<Plug>(AfterAfterObject)")
-    endif
+    return
   finally
     if histget(':', -1) =~ '<SNR>[0-9_]*after('
       call histdel(':', -1)
@@ -82,12 +77,18 @@ function! s:after(str, cnt, vis, bw)
   endtry
 endfunction
 
-function! s:after_after(ins)
-  return "\<esc>"  . 'u'
+function! s:textobj_cancel()
+  if v:operator == 'c'
+    augroup afterobj_undo_empty_change
+      autocmd InsertLeave <buffer> execute 'normal! u'
+            \| execute 'autocmd! afterobj_undo_empty_change'
+            \| execute 'augroup! afterobj_undo_empty_change'
+    augroup END
+  endif
 endfunction
 
-nnoremap <Plug>(AfterAfterObject) <esc>u
-inoremap <Plug>(AfterAfterObject) <nop>
+noremap         <Plug>(AfterAfterObject) <nop>
+inoremap <expr> <Plug>(AfterAfterObject) exists('#afterobj_undo_empty_change')?"\<esc>":''
 
 function! s:esc(c)
   " TODO: anything else?
@@ -107,7 +108,7 @@ function! after_object#enable(...)
     for [p, b] in prefixes
       for [m, v] in items({ 'x': 1, 'o': 0 })
         execute printf(
-        \ '%smap <silent> %s%s :<c-u>call <sid>after(%s, v:count1, %d, %d)<cr>',
+        \ '%smap <silent> %s%s :<c-u>call <sid>after(%s, v:count1, %d, %d)<cr><Plug>(AfterAfterObject)',
         \  m, p, s:esc(c), string(s:esc(c)), v, b)
       endfor
     endfor
