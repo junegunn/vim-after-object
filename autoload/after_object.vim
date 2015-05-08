@@ -43,7 +43,7 @@ function! s:after(str, cnt, vis, bw)
       let len = 0
       let idx = 0
       for part in parts[0 : (a:bw ? -2 : -3)]
-        let len += len(part)
+        let len += strchars(part)
         if len > col - 1
           break
         endif
@@ -53,10 +53,10 @@ function! s:after(str, cnt, vis, bw)
       if a:bw
         let idx = max([idx - 2, 0])
       endif
-      let col = len(join(parts[0 : idx], '')) + (i > 1 && a:cnt > 1)
+      let col = strchars(join(parts[0 : idx], '')) + (i > 1 && a:cnt > 1)
     endfor
 
-    let rest = line[col : -1]
+    let rest = substitute(line, '^.\{'.col.'}', '', '')
     if empty(rest)
       throw 'exit'
     else

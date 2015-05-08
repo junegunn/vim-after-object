@@ -221,3 +221,16 @@ Do:
 
 Expect:
   abc =
+
+Given (Multi-byte characters):
+  ___가나다:   foobar
+  ___가나다:   ___라마바:   foobar
+
+Do:
+  ca:hello\<esc>
+  jva:a:chello\<esc>
+
+Expect:
+  ___가나다:   hello
+  ___가나다:   ___라마바:   hello
+
