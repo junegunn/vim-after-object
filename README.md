@@ -31,7 +31,7 @@ To use different prefixes, pass an optional list to `after_object#enable`:
 
 ```vim
 " ]= and [= instead of a= and aa=
-autocmd VimEnter * call after_object#enable([']', '['], '=', ':')
+autocmd VimEnter * call after_object#enable([']', '[', '=', ':'])
 ```
 
 Usage
