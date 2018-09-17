@@ -22,10 +22,10 @@ mappings you want.
 autocmd VimEnter * call after_object#enable('=', ':', '-', '#', ' ')
 ```
 
-For each character, a pair of mappings are defined; the default mapping with
-`a`-prefix (mnemonic for *after*) and the one with `aa`-prefix for backward
-search. The latter is only used when the character appears more than once in
-the line.
+For each character in the argument list, a pair of mappings is defined; the
+default mapping with `a`-prefix (mnemonic for *after*) and the one with
+`aa`-prefix for backward search. The latter is only useful when the character
+appears more than once in the line.
 
 To use different prefixes, pass an optional list to `after_object#enable`:
 
@@ -48,4 +48,3 @@ apple = 'juice'
 When the line contains multiple occurrences of the character, you can move the
 visual selection forward by repeating `a=`, or backward with `aa=`. Both
 mappings can be preceded by a count. Refer to the test cases for the details.
-
